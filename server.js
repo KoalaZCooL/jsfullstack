@@ -100,9 +100,40 @@ var SampleApp = function() {
             res.send("<html><body><img src='" + link + "'></body></html>");
         };
 
-        self.routes['/'] = function(req, res) {
-            res.setHeader('Content-Type', 'text/html');
-            res.send(self.cache_get('index.html') );
+        self.routes['/api/Token'] = function(req, res) {
+            res.json('af29ff93-3045-4c72-ae27-12480fdeb7bf');
+        };
+
+        self.routes['/api/ReverseWords'] = function(req, res) {
+            res.json(req.query.sentence.split("").reverse().join(""));
+        };
+
+        self.routes['/api/Fibonacci'] = function(req, res) {
+            var calc = Math.round(Math.pow( (Math.sqrt(5)+1)/2, req.query.n) / Math.sqrt(5));
+            res.json(calc);
+        };
+
+        self.routes['/api/TriangleType'] = function(req, res) {
+            var pairs = [
+                req.query.a === req.query.b,
+                req.query.b === req.query.c,
+                req.query.c === req.query.a
+            ].reduce(function(sum, value) {
+                return sum + value;
+            }, 0);
+
+            var triangle;
+            switch (pairs){
+                case 3:
+                case 2: triangle = 'Equilateral';
+                    break;
+
+                case 1: triangle = 'Isosceles';
+                    break;
+
+                default: triangle = 'Scalene';
+            }
+            res.json(triangle);
         };
     };
 
