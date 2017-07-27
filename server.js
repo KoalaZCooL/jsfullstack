@@ -96,7 +96,7 @@ var SampleApp = function() {
         self.routes = { };
 
         self.routes['/api/Token'] = function(req, res) {
-            res.json('af29ff93-3045-4c72-ae27-12480fdeb7bf');
+            res.json();//af29ff93-3045-4c72-ae27-12480fdeb7bf
         };
 
         self.routes['/api/ReverseWords'] = function(req, res) {
@@ -119,6 +119,11 @@ var SampleApp = function() {
         };
 
         self.routes['/api/TriangleType'] = function(req, res) {
+
+            if(req.query.a <= 0 || req.query.b <= 0 || req.query.c <= 0
+            || !( (2*Math.max(req.query.a,req.query.b,req.query.c) )<(req.query.a+req.query.b+req.query.c) ) )
+                return res.json('Error');
+
             var pairs = [
                 req.query.a === req.query.b,
                 req.query.b === req.query.c,
@@ -138,6 +143,7 @@ var SampleApp = function() {
 
                 default: triangle = 'Scalene';
             }
+
             res.json(triangle);
         };
     };
