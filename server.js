@@ -121,7 +121,7 @@ var SampleApp = function() {
         self.routes['/api/TriangleType'] = function(req, res) {
 
             if(req.query.a <= 0 || req.query.b <= 0 || req.query.c <= 0
-            || !( (2*Math.max(req.query.a,req.query.b,req.query.c) )<(req.query.a+req.query.b+req.query.c) ) )
+            || !( (2*Math.max(req.query.a,req.query.b,req.query.c) )<(parseInt(req.query.a)+parseInt(req.query.b)+parseInt(req.query.c)) ) )
                 return res.json('Error');
 
             var pairs = [
