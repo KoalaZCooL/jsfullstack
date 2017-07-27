@@ -95,22 +95,27 @@ var SampleApp = function() {
     self.createRoutes = function() {
         self.routes = { };
 
-        self.routes['/asciimo'] = function(req, res) {
-            var link = "http://i.imgur.com/kmbjB.png";
-            res.send("<html><body><img src='" + link + "'></body></html>");
-        };
-
         self.routes['/api/Token'] = function(req, res) {
             res.json('af29ff93-3045-4c72-ae27-12480fdeb7bf');
         };
 
         self.routes['/api/ReverseWords'] = function(req, res) {
-            res.json(req.query.sentence.split("").reverse().join(""));
+            var word_reverse = [];
+
+            req.query.sentence.split(' ').forEach(function(word){
+                word_reverse.push(word.split('').reverse().join(''));
+            });
+
+            res.json(word_reverse.join(' '));
         };
 
         self.routes['/api/Fibonacci'] = function(req, res) {
-            var calc = Math.round(Math.pow( (Math.sqrt(5)+1)/2, req.query.n) / Math.sqrt(5));
-            res.json(calc);
+            var calc = Math.round(Math.pow( (Math.sqrt(5)+1)/2, Math.abs((req.query.n)) ) / Math.sqrt(5));
+
+            if(Number.MAX_VALUE<calc){
+                res.json();
+            }else
+                res.json(0>req.query.n&&0==req.query.n%2?0-calc:calc);
         };
 
         self.routes['/api/TriangleType'] = function(req, res) {
